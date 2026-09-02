@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  html, body { margin:0; padding:0; background:#F1F3F7; }
+  * { box-sizing:border-box; }
+  a { color:#2F6FED; text-decoration:none; }
+  a:hover { color:#0E1520; }
+  @keyframes plumfix-rise { from { opacity:0; transform:translateY(var(--ry,50px)); } to { opacity:1; transform:none; } }
+  @keyframes plumfix-marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  @keyframes plumfix-glow {
+    0%   { opacity:.45; transform:translateX(-50%) scale(1); }
+    100% { opacity:.55; transform:translateX(-50%) scale(1.06); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { opacity:1 !important; transform:none !important; animation:none !important; }
+    [data-marquee-track] { animation:none !important; }
+    [data-glow] { animation:none !important; }
+    * { transition-duration:.01ms !important; }
+  }
+</style>
+</helmet>
+<div style="background:#F1F3F7;font-family:Inter,sans-serif;overflow-x:hidden">
+
+  <sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}">
+    <nav style="position:absolute;top:24px;left:50%;transform:translateX(-50%);width:100%;max-width:1280px;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:0 30px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M14.5 3.2a4.6 4.6 0 0 0 5.6 6.4L21 8.7l-8.4 8.4-1.4 4.4-3-3 4.4-1.4L21 8.7" stroke="var(--red,#2F6FED)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="6.6" cy="6.6" r="3.4" stroke="var(--red,#2F6FED)" stroke-width="1.7"></circle></svg>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.5px;color:#FFFFFF">BLACK VOLT</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:28px">
+        <a href="#top" data-navlink="1" style="font-size:18px;line-height:23.4px;font-weight:500;letter-spacing:-.54px;color:#FFFFFF;transition:color .25s ease">Home</a>
+        <a href="#about" data-navlink="1" style="font-size:18px;line-height:23.4px;font-weight:500;letter-spacing:-.54px;color:#FFFFFF;transition:color .25s ease">About</a>
+        <a href="#services" data-navlink="1" style="font-size:18px;line-height:23.4px;font-weight:500;letter-spacing:-.54px;color:#FFFFFF;transition:color .25s ease">Services</a>
+        <a href="#contact" data-navlink="1" style="font-size:18px;line-height:23.4px;font-weight:500;letter-spacing:-.54px;color:#FFFFFF;transition:color .25s ease">Contact</a>
+        <a href="#faq" data-navlink="1" style="font-size:18px;line-height:23.4px;font-weight:500;letter-spacing:-.54px;color:#FFFFFF;transition:color .25s ease">FAQ</a>
+      </div>
+      <button data-btn="1" type="button" style="white-space:nowrap;width:150px;height:49px;padding:14px 20px;border:none;border-radius:40px;background:#FFFFFF;color:#000000;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:Inter,sans-serif;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;cursor:pointer;transition:transform .3s cubic-bezier(0.16,1,0.3,1)">Get A Quote<svg data-arrow="1" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    </nav>
+  </sc-if>
+
+  <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;top:0;left:0;width:100%;height:64px;background:#0E1520;border-bottom:1px solid rgba(47,111,237,0.4);z-index:60;display:flex;align-items:center;justify-content:space-between;padding:0 20px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M14.5 3.2a4.6 4.6 0 0 0 5.6 6.4L21 8.7l-8.4 8.4-1.4 4.4-3-3 4.4-1.4L21 8.7" stroke="var(--red,#2F6FED)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="6.6" cy="6.6" r="3.4" stroke="var(--red,#2F6FED)" stroke-width="1.7"></circle></svg>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.5px;color:#FFFFFF">BLACK VOLT</span>
+      </div>
+      <button type="button" onClick="{{ toggleMenu }}" style="width:44px;height:44px;border:none;border-radius:10px;background:var(--red,#2F6FED);display:inline-flex;align-items:center;justify-content:center;cursor:pointer">
+        <sc-if value="{{ menuClosed }}" hint-placeholder-val="{{ true }}">
+          <span style="display:flex;flex-direction:column;gap:4px">
+            <span style="display:block;width:18px;height:2px;background:#FFFFFF"></span>
+            <span style="display:block;width:18px;height:2px;background:#FFFFFF"></span>
+            <span style="display:block;width:18px;height:2px;background:#FFFFFF"></span>
+          </span>
+        </sc-if>
+        <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+          <span style="color:#FFFFFF;font-size:22px;line-height:1;font-weight:400">✕</span>
+        </sc-if>
+      </button>
+    </div>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div data-menu-overlay="1" style="position:fixed;inset:0;background:#05080D;z-index:55;padding:104px 24px 24px;display:flex;flex-direction:column">
+        <a href="#top" onClick="{{ closeMenu }}" data-menu-item="1" style="height:54px;display:flex;align-items:center;font-size:18px;font-weight:500;letter-spacing:-.54px;color:#FFFFFF">Home</a>
+        <a href="#about" onClick="{{ closeMenu }}" data-menu-item="1" style="height:54px;display:flex;align-items:center;font-size:18px;font-weight:500;letter-spacing:-.54px;color:#FFFFFF">About</a>
+        <a href="#services" onClick="{{ closeMenu }}" data-menu-item="1" style="height:54px;display:flex;align-items:center;font-size:18px;font-weight:500;letter-spacing:-.54px;color:#FFFFFF">Services</a>
+        <a href="#contact" onClick="{{ closeMenu }}" data-menu-item="1" style="height:54px;display:flex;align-items:center;font-size:18px;font-weight:500;letter-spacing:-.54px;color:#FFFFFF">Contact</a>
+        <a href="#faq" onClick="{{ closeMenu }}" data-menu-item="1" style="height:54px;display:flex;align-items:center;font-size:18px;font-weight:500;letter-spacing:-.54px;color:#FFFFFF">FAQ</a>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <section id="top" data-screen-label="Hero" style="position:relative;overflow:hidden;background:#0E1520;padding:clamp(120px,18vw,248px) clamp(20px,3vw,30px) 0;min-height:clamp(660px,86vh,895px)">
+    <div data-glow="1" style="position:absolute;top:0;left:60%;transform:translateX(-50%);width:474px;height:474px;border-radius:9999px;background:var(--red,#2F6FED);filter:blur(100px);opacity:.5;animation:plumfix-glow 6s ease-in-out infinite alternate;pointer-events:none"></div>
+    <div style="position:absolute;top:clamp(120px,16vw,180px);left:50%;transform:translateX(-50%);width:max-content;opacity:.2;pointer-events:none">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:min(24vw,455px);line-height:.8;background-image:linear-gradient(0deg,rgba(5,8,13,0) 18.9%,rgba(103,102,102,0.15) 34%,rgba(148,148,148,0.33) 44.9%,rgba(179,179,179,0.49) 56.8%,rgba(202,202,202,0.62) 64.4%,rgb(255,255,255) 78%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">Blackvolt</span>
+    </div>
+    <div style="position:absolute;right:0;bottom:0;width:clamp(320px,46vw,620px);height:clamp(380px,60vh,720px);pointer-events:auto">
+      
+    </div>
+    <div style="position:relative;z-index:2;max-width:1280px;margin-inline:auto;display:flex;flex-wrap:wrap;align-items:flex-end;gap:40px;justify-content:space-between;min-height:clamp(380px,44vh,480px)">
+      <div data-reveal="30" style="max-width:666px;padding-bottom:80px;--ry:30px">
+        <span style="display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:90px;background:rgba(255,255,255,0.05)">
+          <span style="width:8px;height:8px;border-radius:9999px;background:var(--red,#2F6FED);flex:none"></span>
+          <span style="font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;color:#FFFFFF">Security · Trading · Farm Produce</span>
+        </span>
+        <h1 style="margin:24px 0 32px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(48px,7.2vw,100px);line-height:clamp(48px,7.2vw,100px);letter-spacing:clamp(-3px,-.22vw,-1.5px);color:#FFFFFF">PROFESSIONAL <span style="color:var(--red,#2F6FED)">SECURITY</span><br>AND TRADING SOLUTIONS</h1>
+        <div style="display:flex;flex-wrap:wrap;gap:16px">
+          <button data-btn="1" type="button" style="white-space:nowrap;height:49px;padding:14px 20px;border:none;border-radius:40px;background:#FFFFFF;color:#000000;display:inline-flex;align-items:center;gap:8px;font-family:Inter,sans-serif;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;cursor:pointer;transition:transform .3s cubic-bezier(0.16,1,0.3,1)">Request A Quote<svg data-arrow="1" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <button data-btn="1" type="button" style="white-space:nowrap;height:49px;padding:14px 20px;border:1px solid var(--red,#2F6FED);border-radius:40px;background:transparent;color:#FFFFFF;display:inline-flex;align-items:center;gap:8px;font-family:Inter,sans-serif;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;cursor:pointer;transition:transform .3s cubic-bezier(0.16,1,0.3,1)">Our Services<svg data-arrow="1" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+        </div>
+      </div>
+      <div data-reveal="30" style="width:304px;min-height:214px;background:#F1F3F7;border-radius:16px;padding:24px;margin-bottom:80px;position:relative;z-index:3;--ry:30px">
+        <div style="font-size:44px;line-height:50.6px;font-weight:500;letter-spacing:-1.628px;color:#000000">24/7</div>
+        <div style="font-size:16px;line-height:20.8px;font-weight:500;color:#000000;margin-top:4px">Guarding Cover</div>
+        <div style="font-size:16px;line-height:20.8px;font-weight:400;color:rgba(0,0,0,0.8);margin-top:2px">+263 772 404 511</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:18px">
+          <div style="display:flex;align-items:center">
+            <div style="width:36px;height:36px;border-radius:9999px;border:2px solid #F1F3F7;background:#0E1520;color:#FFFFFF;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none">BV</div>
+            <div style="width:36px;height:36px;border-radius:9999px;border:2px solid #F1F3F7;background:#0E1520;color:#FFFFFF;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;margin-left:-10px">GT</div>
+            <div style="width:36px;height:36px;border-radius:9999px;border:2px solid #F1F3F7;background:#0E1520;color:#FFFFFF;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;margin-left:-10px">FP</div>
+          </div>
+          <span style="font-size:14px;font-weight:600;color:#000000">J. Khumalo</span>
+        </div>
+      </div>
+    <image-slot id="hero-tech" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrvfNmTpNY6SiUE6sqq8YWmuxAOrHdOjfzJ1DttRt1ElvWQ9P6pJIfEzA&amp;s=10" credit="Photo by Collin on Unsplash" credit-href="https://unsplash.com/@fuerte" shape="rect" fit="cover" placeholder="Uniformed Black Volt guard, cut-out, anchored bottom-right" style="width: 586px; height: 553px; position: absolute; left: 527px; top: 136px"></image-slot></div>
+  </section>
+
+  <section data-screen-label="Logo marquee" style="background:#F1F3F7;padding:clamp(48px,4vw,60px) 0">
+    <p data-reveal="50" style="margin:0 clamp(20px,3vw,30px) 32px;text-align:center;font-size:20px;line-height:26px;font-weight:500;color:#000000;--ry:50px">Serving Businesses, Farms And Homes In Zimbabwe</p>
+    <div style="overflow:clip">
+      <div data-marquee-track="1" style="display:flex;width:max-content;animation:plumfix-marquee var(--marquee-dur,42s) linear infinite;transition:none" style-hover="animation-play-state:paused">
+        <div style="display:flex;align-items:center;gap:24px;padding-right:24px">
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:190px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><circle cx="12" cy="12" r="9" stroke="#000" stroke-width="2"></circle><path d="M7 12h10" stroke="#000" stroke-width="2"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:200px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M12 3l9 18H3z" fill="#000"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:180px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><rect x="4" y="4" width="16" height="16" rx="4" fill="#000"></rect></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:210px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M4 12a8 8 0 0 1 16 0 8 8 0 0 1-16 0z" stroke="#000" stroke-width="2"></path><path d="M12 4v16" stroke="#000" stroke-width="2"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:170px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" fill="#000"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:230px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><rect x="3" y="3" width="8" height="8" fill="#000"></rect><rect x="13" y="13" width="8" height="8" fill="#000"></rect></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:190px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><circle cx="9" cy="12" r="6" fill="#000"></circle><circle cx="16" cy="12" r="6" fill="#000" opacity=".55"></circle></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:200px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M3 20L12 4l9 16z" stroke="#000" stroke-width="2"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:180px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><rect x="4" y="4" width="16" height="16" rx="8" stroke="#000" stroke-width="2"></rect><rect x="10" y="10" width="4" height="4" fill="#000"></rect></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:220px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M5 19V5l14 14z" fill="#000"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:175px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M12 3l7 4v10l-7 4-7-4V7z" stroke="#000" stroke-width="2"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:205px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><circle cx="12" cy="12" r="4" fill="#000"></circle><circle cx="12" cy="12" r="9" stroke="#000" stroke-width="2"></circle></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+        </div>
+        <div aria-hidden="true" style="display:flex;align-items:center;gap:24px;padding-right:24px">
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:190px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><circle cx="12" cy="12" r="9" stroke="#000" stroke-width="2"></circle><path d="M7 12h10" stroke="#000" stroke-width="2"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:200px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M12 3l9 18H3z" fill="#000"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:180px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><rect x="4" y="4" width="16" height="16" rx="4" fill="#000"></rect></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:210px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M4 12a8 8 0 0 1 16 0 8 8 0 0 1-16 0z" stroke="#000" stroke-width="2"></path><path d="M12 4v16" stroke="#000" stroke-width="2"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:170px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" fill="#000"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:230px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><rect x="3" y="3" width="8" height="8" fill="#000"></rect><rect x="13" y="13" width="8" height="8" fill="#000"></rect></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:190px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><circle cx="9" cy="12" r="6" fill="#000"></circle><circle cx="16" cy="12" r="6" fill="#000" opacity=".55"></circle></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:200px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M3 20L12 4l9 16z" stroke="#000" stroke-width="2"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:180px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><rect x="4" y="4" width="16" height="16" rx="8" stroke="#000" stroke-width="2"></rect><rect x="10" y="10" width="4" height="4" fill="#000"></rect></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:220px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M5 19V5l14 14z" fill="#000"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:175px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M12 3l7 4v10l-7 4-7-4V7z" stroke="#000" stroke-width="2"></path></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:40px;width:205px;color:#000000"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><circle cx="12" cy="12" r="4" fill="#000"></circle><circle cx="12" cy="12" r="9" stroke="#000" stroke-width="2"></circle></svg><span style="font-size:19px;font-weight:600;letter-spacing:-.4px">logoipsum</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" data-screen-label="About" style="background:#F1F3F7;padding:clamp(48px,4vw,60px) clamp(20px,3vw,30px)">
+    <div style="max-width:1280px;margin-inline:auto;display:flex;flex-wrap:wrap;gap:64px">
+      <div data-reveal="50" style="flex:1 1 560px;--ry:50px">
+        <span style="display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:90px;background:rgba(0,0,0,0.05)">
+          <span style="width:8px;height:8px;border-radius:9999px;background:var(--red,#2F6FED);flex:none"></span>
+          <span style="font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;color:#0E1520">About Us</span>
+        </span>
+        <h2 style="margin:24px 0 32px;max-width:696px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(36px,3.4vw,48px);line-height:clamp(36px,3.4vw,48px);color:#0E1520;text-wrap:pretty">BLOCK VOLT INVESTIMENTS IS A NEW KID ON THE BLOCK WHICH HAS PENETRATED THE ABOVE MENTIONED SEEVICES ALBEIT WITH <span style="color:var(--red,#2F6FED)">CUSTOMER ORIENTED END RESULTS VALUE FOR MONEY</span> AND HIGHLY COMPETITIVE PRODUCTS</h2>
+        <button data-btn="1" type="button" style="white-space:nowrap;height:49px;padding:14px 20px;border:none;border-radius:40px;background:var(--red,#2F6FED);color:#FFFFFF;display:inline-flex;align-items:center;gap:8px;font-family:Inter,sans-serif;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;cursor:pointer;transition:transform .3s cubic-bezier(0.16,1,0.3,1)">Request A Quote<svg data-arrow="1" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div style="display:flex;flex-wrap:wrap;gap:clamp(28px,10vw,150px);margin-top:72px">
+          <div>
+            <div data-count="1" style="font-size:clamp(28px,3vw,44px);line-height:1.3;font-weight:500;letter-spacing:-1.76px;color:#000000">4</div>
+            <div style="font-size:16px;line-height:20.8px;color:rgba(14,21,32,0.8);margin-top:6px">Business Divisions</div>
+          </div>
+          <div>
+            <div style="font-size:clamp(28px,3vw,44px);line-height:1.3;font-weight:500;letter-spacing:-1.76px;color:#000000">24/7</div>
+            <div style="font-size:16px;line-height:20.8px;color:rgba(14,21,32,0.8);margin-top:6px">Guarding Cover</div>
+          </div>
+          <div>
+            <div style="font-size:clamp(28px,3vw,44px);line-height:1.3;font-weight:500;letter-spacing:-1.76px;color:#000000">BULAWAYO</div>
+            <div style="font-size:16px;line-height:20.8px;color:rgba(14,21,32,0.8);margin-top:6px">Head Office</div>
+          </div>
+        </div>
+        
+      </div>
+      <div data-reveal="50" style="flex:0 1 520px;min-width:280px;--ry:50px">
+        <div style="overflow:hidden;border-radius:20px;height:560px">
+          <image-slot id="about-photo" src="https://img.magnific.com/premium-photo/medium-shot-man-wearing-security-guard-uniform-this-piece-has-been-captured-shot_1026553-113307.jpg?semt=ais_hybrid&amp;w=740&amp;q=80" credit="Photo by Krzysztof Hepner on Unsplash" credit-href="https://unsplash.com/@nsx_2000" shape="rounded" radius="20" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Black Volt guards on duty at a client site"></image-slot>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" data-screen-label="Services" style="background:#F1F3F7;padding:clamp(48px,4vw,60px) clamp(20px,3vw,30px)">
+    <div style="max-width:1280px;margin-inline:auto">
+      <div data-reveal="50" style="display:flex;flex-wrap:wrap;gap:64px;justify-content:space-between;align-items:flex-end;margin-bottom:64px;--ry:50px">
+        <div>
+          <span style="display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:90px;background:rgba(0,0,0,0.05)">
+            <span style="width:8px;height:8px;border-radius:9999px;background:var(--red,#2F6FED);flex:none"></span>
+            <span style="font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;color:#0E1520">Our Services</span>
+          </span>
+          <h2 style="margin:24px 0 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(36px,3.4vw,48px);line-height:clamp(36px,3.4vw,48px);color:#0E1520">SOLUTIONS ACROSS<br><span style="color:var(--red,#2F6FED)">FOUR</span> DIVISIONS</h2>
+        </div>
+        <div style="max-width:390px">
+          <p style="margin:0 0 20px;font-size:16px;line-height:20.8px;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Import and exports, general trading, farm produce, and security guard services, delivered with value for money and highly competitive products.</p>
+          <button data-btn="1" type="button" style="white-space:nowrap;height:49px;padding:14px 20px;border:none;border-radius:40px;background:var(--red,#2F6FED);color:#FFFFFF;display:inline-flex;align-items:center;gap:8px;font-family:Inter,sans-serif;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;cursor:pointer;transition:transform .3s cubic-bezier(0.16,1,0.3,1)">Contact Us<svg data-arrow="1" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+        </div>
+      </div>
+      <div data-stagger="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:24px">
+        <div data-reveal="50" data-service-card="1" style="min-height:560px;display:flex;flex-direction:column;background:rgba(255,255,255,0.7);border-radius:16px;overflow:hidden;--ry:50px">
+          <div style="height:280px;overflow:hidden;flex:none">
+            <image-slot id="svc-leak" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrvfNmTpNY6SiUE6sqq8YWmuxAOrHdOjfzJ1DttRt1ElvWQ9P6pJIfEzA&amp;s=10" credit="Photo by Rayner Simpson on Unsplash" credit-href="https://unsplash.com/@rayner" shape="rect" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Uniformed guard on static duty"></image-slot>
+          </div>
+          <div style="padding:12px 20px 20px;display:flex;flex-direction:column;flex:1">
+            <div data-rule="1" style="width:20px;height:1px;background:#0E1520;transition:width .45s cubic-bezier(0.16,1,0.3,1);margin-bottom:16px"></div>
+            <h3 data-card-title="1" style="margin:0 0 10px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(26px,2.4vw,32px);line-height:1.2;color:#000000;transition:color .45s cubic-bezier(0.16,1,0.3,1)">Security Guard Services</h3>
+            <p style="margin:0;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Trained, uniformed guards for static guarding, premises patrols, and asset protection.</p>
+            <div style="margin-top:auto;padding-top:24px;display:flex;align-items:center;gap:8px;color:#0E1520">
+              <svg data-arrow="1" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;transition:transform .45s cubic-bezier(0.16,1,0.3,1)"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <span style="font-size:18px;line-height:23.4px;font-weight:500;letter-spacing:-.54px">Enquire</span>
+            </div>
+          </div>
+        </div>
+        <div data-reveal="50" data-service-card="1" style="min-height:560px;display:flex;flex-direction:column;background:rgba(255,255,255,0.7);border-radius:16px;overflow:hidden;--ry:50px">
+          <div style="height:280px;overflow:hidden;flex:none">
+            <image-slot id="svc-drain" src="https://images.unsplash.com/photo-1493946740644-2d8a1f1a6aff?fm=jpg&amp;q=70&amp;w=1000&amp;auto=format&amp;fit=crop" credit="Photo by frank mckenna on Unsplash" credit-href="https://unsplash.com/@frankiefoto" shape="rect" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Goods being loaded for export"></image-slot>
+          </div>
+          <div style="padding:12px 20px 20px;display:flex;flex-direction:column;flex:1">
+            <div data-rule="1" style="width:20px;height:1px;background:#0E1520;transition:width .45s cubic-bezier(0.16,1,0.3,1);margin-bottom:16px"></div>
+            <h3 data-card-title="1" style="margin:0 0 10px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(26px,2.4vw,32px);line-height:1.2;color:#000000;transition:color .45s cubic-bezier(0.16,1,0.3,1)">Import And Exports</h3>
+            <p style="margin:0;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Sourcing and moving goods across borders with reliable handling and competitive pricing.</p>
+            <div style="margin-top:auto;padding-top:24px;display:flex;align-items:center;gap:8px;color:#0E1520">
+              <svg data-arrow="1" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;transition:transform .45s cubic-bezier(0.16,1,0.3,1)"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <span style="font-size:18px;line-height:23.4px;font-weight:500;letter-spacing:-.54px">Enquire</span>
+            </div>
+          </div>
+        </div>
+        <div data-reveal="50" data-service-card="1" style="min-height:560px;display:flex;flex-direction:column;background:rgba(255,255,255,0.7);border-radius:16px;overflow:hidden;--ry:50px">
+          <div style="height:280px;overflow:hidden;flex:none">
+            <image-slot id="svc-heater" src="https://images.unsplash.com/photo-1583686298564-46fbffda0707?fm=jpg&amp;q=70&amp;w=1000&amp;auto=format&amp;fit=crop" credit="Photo by Teng Yuhong on Unsplash" credit-href="https://unsplash.com/@live_for_photo" shape="rect" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="General goods in a trading warehouse"></image-slot>
+          </div>
+          <div style="padding:12px 20px 20px;display:flex;flex-direction:column;flex:1">
+            <div data-rule="1" style="width:20px;height:1px;background:#0E1520;transition:width .45s cubic-bezier(0.16,1,0.3,1);margin-bottom:16px"></div>
+            <h3 data-card-title="1" style="margin:0 0 10px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(26px,2.4vw,32px);line-height:1.2;color:#000000;transition:color .45s cubic-bezier(0.16,1,0.3,1)">General Trading</h3>
+            <p style="margin:0;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Supply of general goods to businesses, institutions, and retail customers.</p>
+            <div style="margin-top:auto;padding-top:24px;display:flex;align-items:center;gap:8px;color:#0E1520">
+              <svg data-arrow="1" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;transition:transform .45s cubic-bezier(0.16,1,0.3,1)"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <span style="font-size:18px;line-height:23.4px;font-weight:500;letter-spacing:-.54px">Enquire</span>
+            </div>
+          </div>
+        </div>
+        <div data-reveal="50" data-service-card="1" style="min-height:560px;display:flex;flex-direction:column;background:rgba(255,255,255,0.7);border-radius:16px;overflow:hidden;--ry:50px">
+          <div style="height:280px;overflow:hidden;flex:none">
+            <image-slot id="svc-produce" src="https://images.unsplash.com/photo-1702506183879-398318b92f6d?fm=jpg&amp;q=70&amp;w=1000&amp;auto=format&amp;fit=crop" credit="Photo by Terry Granger on Unsplash" credit-href="https://unsplash.com/@ukterryg" shape="rect" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Farm produce ready for market"></image-slot>
+          </div>
+          <div style="padding:12px 20px 20px;display:flex;flex-direction:column;flex:1">
+            <div data-rule="1" style="width:20px;height:1px;background:#0E1520;transition:width .45s cubic-bezier(0.16,1,0.3,1);margin-bottom:16px"></div>
+            <h3 data-card-title="1" style="margin:0 0 10px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(26px,2.4vw,32px);line-height:1.2;color:#000000;transition:color .45s cubic-bezier(0.16,1,0.3,1)">Farm Produce</h3>
+            <p style="margin:0;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Fresh farm produce supplied to markets, retailers, and bulk buyers.</p>
+            <div style="margin-top:auto;padding-top:24px;display:flex;align-items:center;gap:8px;color:#0E1520">
+              <svg data-arrow="1" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;transition:transform .45s cubic-bezier(0.16,1,0.3,1)"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <span style="font-size:18px;line-height:23.4px;font-weight:500;letter-spacing:-.54px">Enquire</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Why choose us" style="background:#F1F3F7;padding:clamp(48px,4vw,60px) clamp(20px,3vw,30px)">
+    <div style="max-width:1280px;margin-inline:auto;display:flex;flex-wrap:wrap;align-items:flex-start;gap:64px">
+      <div data-reveal="50" style="flex:1 1 420px;max-width:500px;position:sticky;top:60px;--ry:50px">
+        <span style="display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:90px;background:rgba(0,0,0,0.05)">
+          <span style="width:8px;height:8px;border-radius:9999px;background:var(--red,#2F6FED);flex:none"></span>
+          <span style="font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;color:#0E1520">Why Choose Us</span>
+        </span>
+        <h2 style="margin:24px 0 20px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(36px,3.4vw,48px);line-height:clamp(36px,3.4vw,48px);color:#0E1520">WHY CUSTOMERS<br><span style="color:var(--red,#2F6FED)">CHOOSE</span> BLACK VOLT</h2>
+        <p style="margin:0;font-size:16px;line-height:20.8px;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Customers prefer Black Volt because it offers end to end solutions, competitive prices, experienced security guards, and excellent personalized services and support.</p>
+      </div>
+      <div data-stagger="1" style="flex:1 1 620px;display:flex;flex-direction:column;gap:24px">
+        <div data-reveal="50" style="min-height:298px;background:rgba(255,255,255,0.7);border-radius:16px;padding:24px;display:flex;flex-wrap:wrap;gap:24px;--ry:50px">
+          <div style="flex:1 1 240px;display:flex;flex-direction:column">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><circle cx="17" cy="12" r="6" stroke="var(--red,#2F6FED)" stroke-width="1.8"></circle><path d="M9 31c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="var(--red,#2F6FED)" stroke-width="1.8" stroke-linecap="round"></path><path d="M25 4l2.5 2.5L25 9" stroke="var(--red,#2F6FED)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <h3 style="margin:auto 0 10px;padding-top:24px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(26px,2.4vw,32px);line-height:1.2;color:#000000">End To End Solutions</h3>
+            <p style="margin:0;font-size:16px;line-height:20.8px;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">One partner for guarding, imports, general goods, and farm produce.</p>
+          </div>
+          <div style="flex:0 1 320px;min-width:220px;height:250px;overflow:hidden;border-radius:12px">
+            <image-slot id="why-1" src="https://images.unsplash.com/photo-1517913451214-e22ce660e086?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop" credit="Photo by Jack Finnigan on Unsplash" credit-href="https://unsplash.com/@jackofallstreets" shape="rounded" radius="12" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Guards briefed before deployment"></image-slot>
+          </div>
+        </div>
+        <div data-reveal="50" style="min-height:298px;background:rgba(255,255,255,0.7);border-radius:16px;padding:24px;display:flex;flex-wrap:wrap;gap:24px;--ry:50px">
+          <div style="flex:1 1 240px;display:flex;flex-direction:column">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><circle cx="13" cy="12" r="5" stroke="var(--red,#2F6FED)" stroke-width="1.8"></circle><circle cx="24" cy="14" r="4" stroke="var(--red,#2F6FED)" stroke-width="1.8"></circle><path d="M5 29c0-4.4 3.6-8 8-8s8 3.6 8 8M24 22c3.3 0 6 2.7 6 6" stroke="var(--red,#2F6FED)" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            <h3 style="margin:auto 0 10px;padding-top:24px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(26px,2.4vw,32px);line-height:1.2;color:#000000">Competitive Prices</h3>
+            <p style="margin:0;font-size:16px;line-height:20.8px;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Value for money on every quotation, with highly competitive products.</p>
+          </div>
+          <div style="flex:0 1 320px;min-width:220px;height:250px;overflow:hidden;border-radius:12px">
+            <image-slot id="why-2" src="https://images.unsplash.com/photo-1659273144088-202efb9b86c8?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop" credit="Photo by Marcel Strauß on Unsplash" credit-href="https://unsplash.com/@martzzl" shape="rounded" radius="12" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Client meeting on site"></image-slot>
+          </div>
+        </div>
+        <div data-reveal="50" style="min-height:298px;background:rgba(255,255,255,0.7);border-radius:16px;padding:24px;display:flex;flex-wrap:wrap;gap:24px;--ry:50px">
+          <div style="flex:1 1 240px;display:flex;flex-direction:column">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M18 4h11v11L15 29 4 18 18 4z" stroke="var(--red,#2F6FED)" stroke-width="1.8" stroke-linejoin="round"></path><circle cx="24" cy="10" r="2.2" fill="var(--red,#2F6FED)"></circle></svg>
+            <h3 style="margin:auto 0 10px;padding-top:24px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(26px,2.4vw,32px);line-height:1.2;color:#000000">Experienced Security Guards</h3>
+            <p style="margin:0;font-size:16px;line-height:20.8px;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Vetted, uniformed personnel trained for static guarding and patrols.</p>
+          </div>
+          <div style="flex:0 1 320px;min-width:220px;height:250px;overflow:hidden;border-radius:12px">
+            <image-slot id="why-3" src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop" credit="Photo by Lianhao Qu on Unsplash" credit-href="https://unsplash.com/@lianhao" shape="rounded" radius="12" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Guard at a client entrance"></image-slot>
+          </div>
+        </div>
+        <div data-reveal="50" style="min-height:298px;background:rgba(255,255,255,0.7);border-radius:16px;padding:24px;display:flex;flex-wrap:wrap;gap:24px;--ry:50px">
+          <div style="flex:1 1 240px;display:flex;flex-direction:column">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M7 15a10 10 0 0 1 20 0" stroke="var(--red,#2F6FED)" stroke-width="1.8" stroke-linecap="round"></path><path d="M5 15h24v3H5z" stroke="var(--red,#2F6FED)" stroke-width="1.8"></path><path d="M11 22h12M13 28h8" stroke="var(--red,#2F6FED)" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            <h3 style="margin:auto 0 10px;padding-top:24px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(26px,2.4vw,32px);line-height:1.2;color:#000000">Personalized Service</h3>
+            <p style="margin:0;font-size:16px;line-height:20.8px;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Excellent personalized service and support, with a direct line to management.</p>
+          </div>
+          <div style="flex:0 1 320px;min-width:220px;height:250px;overflow:hidden;border-radius:12px">
+            <image-slot id="why-4" src="https://images.unsplash.com/photo-1587647069256-6ec77c96c2a4?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop" credit="Photo by Gema Saputera on Unsplash" credit-href="https://unsplash.com/@gemasaputera" shape="rounded" radius="12" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Supervisor with the guarding team"></image-slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Gallery" style="background:#F1F3F7;padding:clamp(48px,4vw,60px) clamp(20px,3vw,30px)">
+    <div style="max-width:1280px;margin-inline:auto">
+      <div data-reveal="50" style="display:flex;flex-wrap:wrap;gap:64px;justify-content:space-between;align-items:flex-end;margin-bottom:64px;--ry:50px">
+        <div>
+          <span style="display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:90px;background:rgba(0,0,0,0.05)">
+            <span style="width:8px;height:8px;border-radius:9999px;background:var(--red,#2F6FED);flex:none"></span>
+            <span style="font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;color:#0E1520">Our Gallery</span>
+          </span>
+          <h2 style="margin:24px 0 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(36px,3.4vw,48px);line-height:clamp(36px,3.4vw,48px);color:#0E1520">OUR TEAM AND<br><span style="color:var(--red,#2F6FED)">OPERATIONS</span> IN PICTURES</h2>
+        </div>
+        <p style="margin:0;max-width:390px;font-size:16px;line-height:20.8px;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Uniformed guards on duty, trading operations, and farm produce moving to market.</p>
+      </div>
+      <div data-stagger="1" style="display:flex;flex-wrap:wrap;gap:24px">
+        <div data-reveal="150" style="flex:1 1 480px;height:634px;overflow:hidden;border-radius:16px;--ry:150px">
+          <image-slot id="g-1" src="https://images.unsplash.com/photo-1634646809203-f3b4adff9127?fm=jpg&amp;q=70&amp;w=1400&amp;auto=format&amp;fit=crop" credit="Photo by Fejuz on Unsplash" credit-href="https://unsplash.com/@fejuz" shape="rounded" radius="16" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Guard team lined up in uniform"></image-slot>
+        </div>
+        <div data-reveal="150" style="flex:1 1 280px;display:flex;flex-direction:column;gap:24px;--ry:150px">
+          <div style="height:375px;overflow:hidden;border-radius:16px">
+            <image-slot id="g-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDgbF7JI5THQYF1sTd0G5iWAYMS2fA_gVsUmqx3A8U-MV3txm_T1XVbdU&amp;s=10" credit="Photo by Milan Malkomes on Unsplash" credit-href="https://unsplash.com/@milan_malkomes" shape="rounded" radius="16" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Guard at a client gate"></image-slot>
+          </div>
+          <div style="height:235px;overflow:hidden;border-radius:16px">
+            <image-slot id="g-3" src="https://images.unsplash.com/photo-1494961104209-3c223057bd26?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop" credit="Photo by Guillaume Bolduc on Unsplash" credit-href="https://unsplash.com/@guibolduc" shape="rounded" radius="16" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Goods being checked before dispatch"></image-slot>
+          </div>
+        </div>
+        <div data-reveal="150" style="flex:1 1 280px;display:flex;flex-direction:column;gap:24px;--ry:150px">
+          <div style="height:235px;overflow:hidden;border-radius:16px">
+            <image-slot id="g-4" src="https://images.unsplash.com/photo-1605732562742-3023a888e56e?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop" credit="Photo by Aron Yigin on Unsplash" credit-href="https://unsplash.com/@aronyigin" shape="rounded" radius="16" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Farm produce ready for supply"></image-slot>
+          </div>
+          <div style="height:375px;overflow:hidden;border-radius:16px">
+            <image-slot id="g-5" src="https://images.unsplash.com/photo-1670121180530-cfcba4438038?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop" credit="Photo by Nathan Cima on Unsplash" credit-href="https://unsplash.com/@nathan_cima" shape="rounded" radius="16" style="width:100%;height:100%;transition:transform .6s cubic-bezier(0.16,1,0.3,1)" style-hover="transform:scale(1.04)" placeholder="Patrol vehicle and guards"></image-slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <section id="faq" data-screen-label="FAQ" style="background:#F1F3F7;padding:clamp(48px,4vw,60px) clamp(20px,3vw,30px) 120px">
+    <div style="max-width:1280px;margin-inline:auto;display:flex;flex-wrap:wrap;gap:64px">
+      <div data-reveal="50" style="flex:1 1 380px;max-width:500px;--ry:50px">
+        <span style="display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:90px;background:rgba(0,0,0,0.05)">
+          <span style="width:8px;height:8px;border-radius:9999px;background:var(--red,#2F6FED);flex:none"></span>
+          <span style="font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;color:#0E1520">FAQ</span>
+        </span>
+        <h2 style="margin:24px 0 20px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(36px,3.4vw,48px);line-height:clamp(36px,3.4vw,48px);color:#0E1520">ANSWERS TO YOUR<br><span style="color:var(--red,#2F6FED)">COMMON</span> QUESTIONS</h2>
+        <p style="margin:0;font-size:16px;line-height:20.8px;letter-spacing:-.48px;color:rgba(14,21,32,0.8)">Quick answers on our guarding, trading, import and farm produce services. For anything else, call or email us directly.</p>
+      </div>
+      <div data-stagger="1" style="flex:1 1 520px;display:flex;flex-direction:column;gap:16px">
+        <div data-faq="1" data-reveal="50" style="background:rgba(255,255,255,0.7);border-radius:16px;padding:24px 28px;--ry:50px">
+          <button data-faq-trigger="1" type="button" style="width:100%;background:none;border:none;padding:0;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;text-align:left;font-family:Inter,sans-serif">
+            <span style="font-size:18px;line-height:23.4px;font-weight:500;color:#000000">What services do you offer?</span>
+            <span data-faq-icon="1" style="position:relative;width:18px;height:18px;flex:none">
+              <span style="position:absolute;top:8px;left:0;width:18px;height:2px;background:#000000"></span>
+              <span data-faq-bar="1" style="position:absolute;left:8px;top:0;width:2px;height:18px;background:#000000;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"></span>
+            </span>
+          </button>
+          <div data-faq-panel="1" style="height:0;opacity:0;overflow:hidden;transition:height .35s cubic-bezier(0.16,1,0.3,1),opacity .35s cubic-bezier(0.16,1,0.3,1)">
+            <p style="margin:16px 0 0;font-size:16px;line-height:20.8px;color:rgba(14,21,32,0.8)">Black Volt Investments operates four divisions: import and exports, general trading, farm produce, and security guard services.</p>
+          </div>
+        </div>
+        <div data-faq="1" data-reveal="50" style="background:rgba(255,255,255,0.7);border-radius:16px;padding:24px 28px;--ry:50px">
+          <button data-faq-trigger="1" type="button" style="width:100%;background:none;border:none;padding:0;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;text-align:left;font-family:Inter,sans-serif">
+            <span style="font-size:18px;line-height:23.4px;font-weight:500;color:#000000">Do you supply uniformed security guards?</span>
+            <span data-faq-icon="1" style="position:relative;width:18px;height:18px;flex:none">
+              <span style="position:absolute;top:8px;left:0;width:18px;height:2px;background:#000000"></span>
+              <span data-faq-bar="1" style="position:absolute;left:8px;top:0;width:2px;height:18px;background:#000000;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"></span>
+            </span>
+          </button>
+          <div data-faq-panel="1" style="height:0;opacity:0;overflow:hidden;transition:height .35s cubic-bezier(0.16,1,0.3,1),opacity .35s cubic-bezier(0.16,1,0.3,1)">
+            <p style="margin:16px 0 0;font-size:16px;line-height:20.8px;color:rgba(14,21,32,0.8)">Yes. We deploy trained, uniformed guards for static guarding, premises patrols, and asset protection at business and residential sites.</p>
+          </div>
+        </div>
+        <div data-faq="1" data-reveal="50" style="background:rgba(255,255,255,0.7);border-radius:16px;padding:24px 28px;--ry:50px">
+          <button data-faq-trigger="1" type="button" style="width:100%;background:none;border:none;padding:0;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;text-align:left;font-family:Inter,sans-serif">
+            <span style="font-size:18px;line-height:23.4px;font-weight:500;color:#000000">Which areas do you cover?</span>
+            <span data-faq-icon="1" style="position:relative;width:18px;height:18px;flex:none">
+              <span style="position:absolute;top:8px;left:0;width:18px;height:2px;background:#000000"></span>
+              <span data-faq-bar="1" style="position:absolute;left:8px;top:0;width:2px;height:18px;background:#000000;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"></span>
+            </span>
+          </button>
+          <div data-faq-panel="1" style="height:0;opacity:0;overflow:hidden;transition:height .35s cubic-bezier(0.16,1,0.3,1),opacity .35s cubic-bezier(0.16,1,0.3,1)">
+            <p style="margin:16px 0 0;font-size:16px;line-height:20.8px;color:rgba(14,21,32,0.8)">Our office is at No 22 Cecil Road, Bulawayo. Talk to us about deployments and supply outside the city.</p>
+          </div>
+        </div>
+        <div data-faq="1" data-reveal="50" style="background:rgba(255,255,255,0.7);border-radius:16px;padding:24px 28px;--ry:50px">
+          <button data-faq-trigger="1" type="button" style="width:100%;background:none;border:none;padding:0;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;text-align:left;font-family:Inter,sans-serif">
+            <span style="font-size:18px;line-height:23.4px;font-weight:500;color:#000000">Are your guards experienced?</span>
+            <span data-faq-icon="1" style="position:relative;width:18px;height:18px;flex:none">
+              <span style="position:absolute;top:8px;left:0;width:18px;height:2px;background:#000000"></span>
+              <span data-faq-bar="1" style="position:absolute;left:8px;top:0;width:2px;height:18px;background:#000000;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"></span>
+            </span>
+          </button>
+          <div data-faq-panel="1" style="height:0;opacity:0;overflow:hidden;transition:height .35s cubic-bezier(0.16,1,0.3,1),opacity .35s cubic-bezier(0.16,1,0.3,1)">
+            <p style="margin:16px 0 0;font-size:16px;line-height:20.8px;color:rgba(14,21,32,0.8)">Yes. We deploy experienced security guards and back them with excellent personalized service and support.</p>
+          </div>
+        </div>
+        <div data-faq="1" data-reveal="50" style="background:rgba(255,255,255,0.7);border-radius:16px;padding:24px 28px;--ry:50px">
+          <button data-faq-trigger="1" type="button" style="width:100%;background:none;border:none;padding:0;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;text-align:left;font-family:Inter,sans-serif">
+            <span style="font-size:18px;line-height:23.4px;font-weight:500;color:#000000">How are your prices set?</span>
+            <span data-faq-icon="1" style="position:relative;width:18px;height:18px;flex:none">
+              <span style="position:absolute;top:8px;left:0;width:18px;height:2px;background:#000000"></span>
+              <span data-faq-bar="1" style="position:absolute;left:8px;top:0;width:2px;height:18px;background:#000000;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"></span>
+            </span>
+          </button>
+          <div data-faq-panel="1" style="height:0;opacity:0;overflow:hidden;transition:height .35s cubic-bezier(0.16,1,0.3,1),opacity .35s cubic-bezier(0.16,1,0.3,1)">
+            <p style="margin:16px 0 0;font-size:16px;line-height:20.8px;color:rgba(14,21,32,0.8)">We quote competitively and focus on value for money, with highly competitive products across all four divisions.</p>
+          </div>
+        </div>
+        <div data-faq="1" data-reveal="50" style="background:rgba(255,255,255,0.7);border-radius:16px;padding:24px 28px;--ry:50px">
+          <button data-faq-trigger="1" type="button" style="width:100%;background:none;border:none;padding:0;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;text-align:left;font-family:Inter,sans-serif">
+            <span style="font-size:18px;line-height:23.4px;font-weight:500;color:#000000">How do I get a quotation?</span>
+            <span data-faq-icon="1" style="position:relative;width:18px;height:18px;flex:none">
+              <span style="position:absolute;top:8px;left:0;width:18px;height:2px;background:#000000"></span>
+              <span data-faq-bar="1" style="position:absolute;left:8px;top:0;width:2px;height:18px;background:#000000;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"></span>
+            </span>
+          </button>
+          <div data-faq-panel="1" style="height:0;opacity:0;overflow:hidden;transition:height .35s cubic-bezier(0.16,1,0.3,1),opacity .35s cubic-bezier(0.16,1,0.3,1)">
+            <p style="margin:16px 0 0;font-size:16px;line-height:20.8px;color:rgba(14,21,32,0.8)">Call +263 772 404 511 or email sajuniya63@gmail.com and J. Khumalo will come back to you with a quotation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="CTA" style="position:relative;overflow:hidden;min-height:clamp(520px,70vh,743px);padding:clamp(48px,4vw,60px) clamp(20px,3vw,30px);display:flex;align-items:center;justify-content:center">
+    <div style="position:absolute;inset:0">
+      <image-slot id="cta-bg" src="https://images.unsplash.com/photo-1523294557-3637e1db3f33?fm=jpg&amp;q=70&amp;w=1800&amp;auto=format&amp;fit=crop" credit="Photo by Craig Whitehead on Unsplash" credit-href="https://unsplash.com/@sixstreetunder" shape="rect" style="width:100%;height:100%" placeholder="Guarded premises at dusk, patrol vehicle and guard at right"></image-slot>
+    </div>
+    <div style="position:absolute;inset:0;background:linear-gradient(243deg,rgba(255,255,255,0.05) 0%,rgba(5,8,13,0) 17.7%,rgba(0,0,0,0.61) 49.1%,rgba(0,0,0,0.8) 100%);pointer-events:none"></div>
+    <div data-reveal="50" style="position:relative;z-index:2;max-width:640px;text-align:center;--ry:50px">
+      <h2 style="margin:0 0 20px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(36px,3.4vw,48px);line-height:clamp(36px,3.4vw,48px);color:#FFFFFF">NEED RELIABLE GUARDS OR<br>COMPETITIVE <span style="color:var(--red,#2F6FED)">SUPPLY</span>?</h2>
+      <p style="margin:0 0 28px;font-size:16px;line-height:20.8px;color:#FFFFFF">Whether you need uniformed security cover or a competitive supply partner for imports, general goods, or farm produce, Black Volt Investments is ready to quote.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center">
+        <button data-btn="1" type="button" style="white-space:nowrap;height:49px;padding:14px 20px;border:none;border-radius:40px;background:#FFFFFF;color:#000000;display:inline-flex;align-items:center;gap:8px;font-family:Inter,sans-serif;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;cursor:pointer;transition:transform .3s cubic-bezier(0.16,1,0.3,1)">Request A Quote<svg data-arrow="1" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex:none;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+        <button data-btn="1" type="button" style="white-space:nowrap;height:49px;padding:14px 20px;border:1px solid rgba(255,255,255,0.35);border-radius:40px;background:rgba(0,0,0,0.35);color:#FFFFFF;display:inline-flex;align-items:center;gap:8px;font-family:Inter,sans-serif;font-size:16px;line-height:20.8px;font-weight:500;letter-spacing:-.48px;cursor:pointer;transition:transform .3s cubic-bezier(0.16,1,0.3,1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M6.5 3.5l3 3-2 2.5a12 12 0 0 0 7.5 7.5l2.5-2 3 3-2.5 3C13 22 2 11 3.5 6z" stroke="#FFFFFF" stroke-width="1.7" stroke-linejoin="round"></path></svg>+263 772 404 511</button>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact" style="background:linear-gradient(0deg,#05080D 0%,#0A121C 35%,#123A6B 100%);padding:80px 40px 20px;overflow:hidden">
+    <div data-reveal="80" style="max-width:1280px;margin-inline:auto;display:flex;flex-wrap:wrap;gap:48px;justify-content:space-between;--ry:80px">
+      <div style="flex:1 1 320px;max-width:400px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="flex:none"><path d="M14.5 3.2a4.6 4.6 0 0 0 5.6 6.4L21 8.7l-8.4 8.4-1.4 4.4-3-3 4.4-1.4L21 8.7" stroke="var(--red,#2F6FED)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="6.6" cy="6.6" r="3.4" stroke="var(--red,#2F6FED)" stroke-width="1.7"></circle></svg>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.5px;color:#FFFFFF">BLACK VOLT</span>
+        </div>
+        <p style="margin:20px 0 0;font-size:20px;line-height:26px;font-weight:500;color:#FFFFFF">Import and exports, general trading, farm produce, and security guard services. Customer oriented end results and value for money.</p>
+      </div>
+      <div style="flex:0 1 240px">
+        <h4 style="margin:0 0 20px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:24px;line-height:24px;letter-spacing:.72px;color:#FFFFFF">CONTACT</h4>
+        <div style="display:flex;flex-direction:column;gap:20px;font-size:16px;font-weight:500;color:rgba(255,255,255,0.8)">
+          <span>J. Khumalo</span>
+          <span>No 22 Cecil Road, Bulawayo</span>
+          <span>+263 772 404 511</span>
+          <span>sajuniya63@gmail.com</span>
+          <span>jkhumalo94@gmail.com</span>
+          <span>www.blackvolt.co.zw</span>
+        </div>
+      </div>
+      <div style="flex:0 1 160px">
+        <h4 style="margin:0 0 20px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:24px;line-height:24px;letter-spacing:.72px;color:#FFFFFF">PAGES</h4>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <a href="#top" style="font-size:16px;font-weight:500;color:rgba(255,255,255,0.8);transition:color .25s ease" style-hover="color:#FFFFFF">Home</a>
+          <a href="#about" style="font-size:16px;font-weight:500;color:rgba(255,255,255,0.8);transition:color .25s ease" style-hover="color:#FFFFFF">About</a>
+          <a href="#services" style="font-size:16px;font-weight:500;color:rgba(255,255,255,0.8);transition:color .25s ease" style-hover="color:#FFFFFF">Services</a>
+          <a href="#faq" style="font-size:16px;font-weight:500;color:rgba(255,255,255,0.8);transition:color .25s ease" style-hover="color:#FFFFFF">Contact</a>
+          <a href="#faq" style="font-size:16px;font-weight:500;color:rgba(255,255,255,0.8);transition:color .25s ease" style-hover="color:#FFFFFF">FAQ</a>
+        </div>
+      </div>
+      <div style="flex:0 1 200px">
+        <h4 style="margin:0 0 20px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:24px;line-height:24px;letter-spacing:.72px;color:#FFFFFF">DIVISIONS</h4>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <a href="#top" data-social="1" style="display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:500;color:rgba(255,255,255,0.8);transition:color .25s ease" style-hover="color:#FFFFFF">Import And Exports<span data-social-arrow="1" style="display:inline-block;transition:transform .25s ease">↗</span></a>
+          <a href="#top" data-social="1" style="display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:500;color:rgba(255,255,255,0.8);transition:color .25s ease" style-hover="color:#FFFFFF">General Trading<span data-social-arrow="1" style="display:inline-block;transition:transform .25s ease">↗</span></a>
+          <a href="#top" data-social="1" style="display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:500;color:rgba(255,255,255,0.8);transition:color .25s ease" style-hover="color:#FFFFFF">Farm Produce<span data-social-arrow="1" style="display:inline-block;transition:transform .25s ease">↗</span></a>
+          <a href="#top" data-social="1" style="display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:500;color:rgba(255,255,255,0.8);transition:color .25s ease" style-hover="color:#FFFFFF">Security Guard Services<span data-social-arrow="1" style="display:inline-block;transition:transform .25s ease">↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div data-reveal="50" style="text-align:center;margin-top:60px;--ry:50px">
+      <span style="display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:min(21vw,456px);line-height:.8;background-image:linear-gradient(0deg,rgba(5,8,13,0) 18.9%,rgba(103,102,102,0.15) 34%,rgba(148,148,148,0.33) 44.9%,rgba(179,179,179,0.49) 56.8%,rgba(202,202,202,0.62) 64.4%,rgb(255,255,255) 78%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">BLACKVOLT</span>
+    </div>
+    <div data-reveal="16" style="max-width:1280px;margin:0 auto;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;--ry:16px">
+      <span style="font-size:16px;line-height:27.2px;color:#FFFFFF">© 2026 Black Volt Investments (Pvt) Ltd All Rights Reserved</span>
+      <div style="display:flex;gap:24px">
+        <a href="#top" style="font-size:16px;line-height:27.2px;color:rgba(255,255,255,0.8)" style-hover="color:#FFFFFF">Terms and conditions</a>
+        <a href="#top" style="font-size:16px;line-height:27.2px;color:rgba(255,255,255,0.8)" style-hover="color:#FFFFFF">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2F6FED&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#2F6FED&quot;,&quot;#1273C6&quot;,&quot;#0E4C8A&quot;,&quot;#0E1520&quot;],&quot;section&quot;:&quot;Brand&quot;},&quot;animate&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;marqueeSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:71,&quot;min&quot;:20,&quot;max&quot;:160,&quot;step&quot;:1,&quot;unit&quot;:&quot;px/s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+class Component extends DCLogic {
+  state = { narrow: false, menu: false };
+
+  renderVals() {
+    return {
+      isNarrow: this.state.narrow,
+      isWide: !this.state.narrow,
+      menuOpen: this.state.menu,
+      menuClosed: !this.state.menu,
+      toggleMenu: () => this.setState(s => ({ menu: !s.menu })),
+      closeMenu: () => this.setState({ menu: false }),
+      prevSlide: () => this.slide(-1),
+      nextSlide: () => this.slide(1)
+    };
+  }
+
+  componentDidMount() {
+    const root = this.el || document;
+    this.root = root.querySelector ? root : document;
+    const host = document.documentElement;
+    const accent = this.props.accent || '#2F6FED';
+    if (accent) host.style.setProperty('--red', accent);
+    const speed = this.props.marqueeSpeed;
+    if (speed) host.style.setProperty('--marquee-dur', (2400 / speed) + 's');
+    else host.style.setProperty('--marquee-dur', '34s');
+
+    this.mq = window.matchMedia('(max-width: 1439px)');
+    this.onMq = () => this.setState({ narrow: this.mq.matches, menu: false });
+    this.onMq();
+    this.mq.addEventListener('change', this.onMq);
+
+    this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.wireReveals();
+    this.wireHovers();
+    this.wireFaq();
+    this.carouselIndex = 0;
+  }
+
+  componentWillUnmount() {
+    if (this.mq) this.mq.removeEventListener('change', this.onMq);
+    if (this.io) this.io.disconnect();
+  }
+
+  q(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+
+  // Content is authored VISIBLE. The entrance is purely additive — a keyframe
+  // animation applied on intersect — so a frozen clock, a re-render, or no JS
+  // at all still leaves every block readable.
+  wireReveals() {
+    const frozen = !document.timeline || document.timeline.currentTime === 0;
+    const animate = this.props.animate !== false && !this.reduced && !frozen;
+    this.animateReveals = animate;
+    if (!animate) return;
+    this.q('[data-stagger] > [data-reveal]').forEach((el, i) => {
+      el.style.setProperty('--rd', (0.2 + i * 0.12) + 's');
+    });
+    const h = window.innerHeight || 800;
+    this.q('[data-reveal]').forEach(el => {
+      if (el.getBoundingClientRect().top > h * 0.9) el.style.opacity = '0';
+    });
+    this.io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) this.show(e.target); });
+    }, { threshold: 0.15 });
+    this.q('[data-reveal]').forEach(el => this.io.observe(el));
+    this.q('[data-count]').forEach(el => { if (!el.closest('[data-reveal]')) this.io.observe(el); });
+  }
+
+  show(el) {
+    if (el.getAttribute('data-shown') !== '1') {
+      el.setAttribute('data-shown', '1');
+      if (this.animateReveals) {
+        el.style.opacity = '';
+        const delay = el.style.getPropertyValue('--rd') || '0.2s';
+        el.style.animation = 'plumfix-rise .9s cubic-bezier(0.16,1,0.3,1) ' + delay + ' both';
+      }
+    }
+    el.querySelectorAll('[data-count]').forEach(n => this.countUp(n));
+    if (el.hasAttribute('data-count')) this.countUp(el);
+  }
+
+  countUp(el) {
+    if (el.dataset.counted) return;
+    el.dataset.counted = '1';
+    const raw = (el.textContent || '').trim();
+    const m = raw.match(/^(\d+)(.*)$/);
+    if (!m) return;
+    const target = parseInt(m[1], 10), suffix = m[2] || '';
+    const dur = 1600, t0 = performance.now();
+    const tick = now => {
+      const p = Math.min(1, (now - t0) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = target + suffix;
+    };
+    el.textContent = '0' + suffix;
+    requestAnimationFrame(tick);
+  }
+
+  wireHovers() {
+    const red = this.props.accent || '#2F6FED';
+    this.q('[data-btn]').forEach(btn => {
+      const arrow = btn.querySelector('[data-arrow]');
+      btn.addEventListener('mouseenter', () => {
+        btn.style.transform = 'scale(1.03)';
+        if (arrow) arrow.style.transform = 'translateX(4px)';
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'none';
+        if (arrow) arrow.style.transform = 'none';
+      });
+    });
+    this.q('[data-navlink]').forEach(a => {
+      a.addEventListener('mouseenter', () => { a.style.color = red; });
+      a.addEventListener('mouseleave', () => { a.style.color = '#FFFFFF'; });
+    });
+    this.q('[data-service-card]').forEach(card => {
+      const rule = card.querySelector('[data-rule]');
+      const title = card.querySelector('[data-card-title]');
+      const arrow = card.querySelector('[data-arrow]');
+      card.addEventListener('mouseenter', () => {
+        if (rule) rule.style.width = '100%';
+        if (title) title.style.color = red;
+        if (arrow) arrow.style.transform = 'translateX(6px)';
+      });
+      card.addEventListener('mouseleave', () => {
+        if (rule) rule.style.width = '20px';
+        if (title) title.style.color = '#000000';
+        if (arrow) arrow.style.transform = 'none';
+      });
+    });
+    this.q('[data-social]').forEach(a => {
+      const ar = a.querySelector('[data-social-arrow]');
+      a.addEventListener('mouseenter', () => { if (ar) ar.style.transform = 'translate(2px,-2px)'; });
+      a.addEventListener('mouseleave', () => { if (ar) ar.style.transform = 'none'; });
+    });
+  }
+
+  // transitions never advance under a frozen document timeline (print / capture)
+  liveClock() {
+    return !!document.timeline && document.timeline.currentTime !== 0 && !this.reduced;
+  }
+
+  wireFaq() {
+    const items = this.q('[data-faq]');
+    items.forEach(item => {
+      const trigger = item.querySelector('[data-faq-trigger]');
+      const panel = item.querySelector('[data-faq-panel]');
+      const bar = item.querySelector('[data-faq-bar]');
+      if (!trigger || !panel) return;
+      trigger.addEventListener('click', () => {
+        const open = item.dataset.open === '1';
+        if (!this.liveClock()) {
+          panel.style.transition = 'none';
+          if (bar) bar.style.transition = 'none';
+        }
+        items.forEach(other => {
+          if (other === item) return;
+          const p = other.querySelector('[data-faq-panel]');
+          const b = other.querySelector('[data-faq-bar]');
+          if (other.dataset.open === '1' && p) {
+            p.style.height = p.scrollHeight + 'px';
+            requestAnimationFrame(() => { p.style.height = '0px'; p.style.opacity = '0'; });
+            other.dataset.open = '0';
+            if (b) b.style.transform = 'none';
+          }
+        });
+        if (open) {
+          panel.style.height = panel.scrollHeight + 'px';
+          requestAnimationFrame(() => { panel.style.height = '0px'; panel.style.opacity = '0'; });
+          item.dataset.open = '0';
+          if (bar) bar.style.transform = 'none';
+        } else {
+          panel.style.height = panel.scrollHeight + 'px';
+          panel.style.opacity = '1';
+          item.dataset.open = '1';
+          if (bar) bar.style.transform = 'scaleY(0) rotate(90deg)';
+          setTimeout(() => { if (item.dataset.open === '1') panel.style.height = 'auto'; }, 380);
+        }
+      });
+    });
+  }
+
+  slide(dir) {
+    const track = document.querySelector('[data-carousel-track]');
+    const viewport = document.querySelector('[data-carousel-viewport]');
+    if (!track || !viewport) return;
+    const cards = track.querySelectorAll('[data-carousel-card]');
+    if (!cards.length) return;
+    const step = cards[0].getBoundingClientRect().width + 24;
+    const perView = Math.max(1, Math.round(viewport.getBoundingClientRect().width / step));
+    const max = Math.max(0, cards.length - perView);
+    let i = (this.carouselIndex || 0) + dir;
+    if (i < 0) i = max;
+    if (i > max) i = 0;
+    this.carouselIndex = i;
+    if (!this.liveClock()) track.style.transition = 'none';
+    track.style.transform = 'translateX(' + (-i * step) + 'px)';
+  }
+}
+</script>
+</body>
+</html>

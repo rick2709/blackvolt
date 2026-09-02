@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #0e1520;
+  --ink-deep: #05080d;
+  --ink-2: #16232f;
+  --cool: #f1f3f7;
+  --paper: #fafafa;
+  --paper-2: #f1f3f7;
+  --line: #e3e6ec;
+  --line-2: #cfd5de;
+  --muted: #5c6670;
+  --accent: #2f6fed;
+  --accent-2: #5a8ff5;
+  --accent-soft: #e7eefd;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --white: #ffffff;
+  --card: rgba(255, 255, 255, 0.7);
+  --ink-80: rgba(14, 21, 32, 0.8);
+  --white-05: rgba(255, 255, 255, 0.05);
+  --white-80: rgba(255, 255, 255, 0.8);
+  --black-05: rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  background: var(--paper);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+section {
+  padding: clamp(60px, 6.2vw, 98px) 0;
+  scroll-margin-top: 86px;
+}
+
+.container {
+  width: min(1240px, 100% - 48px);
+  margin-inline: auto;
+}
+
+/* Hero wordmark — photograph filled through the text via background-clip.
+   Solid white fallback for browsers without background-clip:text support. */
+.hero-wordmark-fill {
+  color: #fff;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero-wordmark-fill {
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+/* Unified photo grade — one camera, one grader, across every image on the page. */
+.photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.72) contrast(1.06) brightness(0.99) sepia(0.06);
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background: linear-gradient(190deg, rgba(14, 21, 32, 0.13), rgba(47, 111, 237, 0.07));
+}
+.photo-dark img {
+  filter: saturate(0.72) contrast(1.06) brightness(0.99) sepia(0.06) brightness(0.82);
+}
+.hoverzoom:hover .photo img {
+  transform: scale(1.045);
+}
+
+/* FAQ accordion — native <details>, hairline dividers, plus/minus toggle. */
+.faq-list {
+  border-top: 1px solid var(--line-2);
+}
+.faq-item {
+  border-bottom: 1px solid var(--line-2);
+}
+.faq-item > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 0;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 17.5px;
+  color: var(--ink);
+  list-style: none;
+}
+.faq-item > summary::-webkit-details-marker {
+  display: none;
+}
+.faq-toggle {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  flex: none;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.faq-toggle::before,
+.faq-toggle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--ink);
+  transition: opacity 0.2s ease, background-color 0.25s ease;
+}
+.faq-toggle::before {
+  width: 10px;
+  height: 1.5px;
+  transform: translate(-50%, -50%);
+}
+.faq-toggle::after {
+  width: 1.5px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+}
+.faq-item[open] .faq-toggle {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.faq-item[open] .faq-toggle::before,
+.faq-item[open] .faq-toggle::after {
+  background: #fff;
+}
+.faq-item[open] .faq-toggle::after {
+  opacity: 0;
+}
+.faq-answer {
+  padding-bottom: 22px;
+  margin-top: -6px;
+  max-width: 60ch;
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+/* Gallery — six images, no empty cells at any breakpoint. */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 200px;
+  gap: 14px;
+}
+.gallery > * {
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.gallery > *:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.gallery > *:last-child {
+  grid-column: span 4;
+}
+@media (max-width: 899px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 160px;
+  }
+  .gallery > *:last-child {
+    grid-column: span 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
