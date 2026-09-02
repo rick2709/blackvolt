@@ -65,8 +65,8 @@ export default function WhyChooseUs() {
           <div className="photo photo-dark absolute inset-0">
             {/* TODO: replace with client photography */}
             <Image
-              src="https://images.unsplash.com/photo-1734255026082-82fdc81991f0?w=1000&h=900&q=75&fm=jpg&fit=crop"
-              alt="Traders at a busy produce market"
+              src="https://images.unsplash.com/photo-1702506183879-398318b92f6d?fm=jpg&q=70&w=1000&auto=format&fit=crop"
+              alt="Fresh farm produce ready for market"
               width={1000}
               height={900}
               sizes="(max-width: 1024px) 100vw, 50vw"

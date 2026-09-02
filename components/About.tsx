@@ -100,8 +100,8 @@ export default function About() {
           <div className="photo rounded-[var(--radius-lg)] aspect-[4/5] w-full">
             {/* TODO: replace with client photography */}
             <Image
-              src="https://images.unsplash.com/photo-1777065851469-71aef898a26f?w=900&h=1125&q=75&fm=jpg&fit=crop"
-              alt="Traders and buyers at a busy market"
+              src="https://images.unsplash.com/photo-1517913451214-e22ce660e086?fm=jpg&q=70&w=900&auto=format&fit=crop"
+              alt="Guards briefed before deployment"
               width={900}
               height={1125}
               sizes="(max-width: 768px) 100vw, 480px"
