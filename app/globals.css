@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Base resets must live in Tailwind's own "base" layer. Un-layered CSS
+   beats every layered rule regardless of specificity, so a plain `a{}`
+   or `section{}` selector here would silently override text-color/padding
+   utilities applied anywhere on the site — which is exactly what was
+   happening (every plain <a>-rendered nav link inherited the dark body
+   color instead of applying text-white). */
+@layer base {
 :root {
   --ink: #0e1520;
   --ink-deep: #05080d;
@@ -46,6 +53,7 @@ section {
   padding: clamp(60px, 6.2vw, 98px) 0;
   scroll-margin-top: 86px;
 }
+} /* end @layer base */
 
 .container {
   width: min(1240px, 100% - 48px);
