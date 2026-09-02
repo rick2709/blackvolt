@@ -284,7 +284,7 @@ export default function Navbar() {
                     }`}
                   >
                     <d.icon size={20} className="flex-none" />
-                    <span className="text-base font-medium">{d.label}</span>
+                    <span className="text-base font-medium text-white">{d.label}</span>
                   </Link>
                 ))}
               </motion.div>
@@ -300,7 +300,7 @@ export default function Navbar() {
           FAQ
         </Link>
       </div>
-      <Button href="/contact" variant="solid-white" className="w-[150px] justify-center">
+      <Button href="/contact" variant="solid-accent" className="w-[150px] justify-center">
         Get A Quote
       </Button>
     </nav>
